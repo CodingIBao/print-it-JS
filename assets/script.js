@@ -66,3 +66,16 @@ setInterval(() => showSlides(index + 1), 3000);
  */
 arrowLeft.addEventListener("click", () => showSlides(index - 1));
 arrowRight.addEventListener("click", () => showSlides(index + 1));
+
+/**
+ * Generates navigation dots for each slide.
+ * Each dot is appended to the .dots container and corresponds to a slide index.
+ * The first dot is marked as active with the 'dot_selected' class.
+ */
+slides.forEach((slides, i) => {
+  const dot = document.createElement("div");
+  dot.classList.add("dot");
+  if (i === 0) dot.classList.add("dot_selected");
+  dot.setAttribute("data-index", i);
+  dotsContainer.appendChild(dot);
+});
