@@ -35,7 +35,6 @@ const arrowLeft = document.querySelector(".arrow_left");
 const arrowRight = document.querySelector(".arrow_right");
 const dotsContainer = document.querySelector(".dots");
 
-
 /**
  * Current index of the displayed slide.
  * @type {number}
@@ -52,6 +51,9 @@ function showSlides(i) {
   index = (i + slides.length) % slides.length;
   imgBanner.src = `./assets/images/slideshow/${slides[index].image}`;
   textBanner.innerHTML = slides[index].tagLine;
+  const allDots = document.querySelectorAll(".dot");
+  allDots.forEach(dot => dot.classList.remove("dot_selected"));
+  allDots[index].classList.add("dot_selected");
 }
 
 /**
@@ -78,4 +80,15 @@ slides.forEach((slides, i) => {
   if (i === 0) dot.classList.add("dot_selected");
   dot.setAttribute("data-index", i);
   dotsContainer.appendChild(dot);
+});
+
+/**
+ * Adds click event listeners to each navigation dot.
+ * Clicking a dot displays the corresponding slide.
+ */
+const dots = document.querySelectorAll(".dot");
+dots.forEach((dot, i) => {
+  dot.addEventListener("click", () => {
+    showSlides(i);
+  });
 });
