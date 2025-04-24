@@ -1,3 +1,9 @@
+/**
+ * Array of slide objects used in the banner carousel.
+ * Each slide contains an image filename and an HTML tagLine.
+ *
+ * @type {Array<{image: string, tagLine: string}>}
+ */
 const slides = [
   {
     image: "slide1.jpg",
@@ -19,60 +25,44 @@ const slides = [
 ];
 
 
-// CAROUSEL
-// Implements infinite carousel behavior by cycling through slides every few seconds
-// Loops back to the first slide after reaching the end
+
+/**
+ * References to DOM elements used in the slideshow.
+ */
 const imgBanner = document.querySelector(".banner-img");
-imgBanner.src = `./assets/images/slideshow/${slides[0].image}`;
-
 const textBanner = document.querySelector("#banner p");
-textBanner.innerHTML = slides[0].tagLine;
-
-let index = 0;
-
-function changeSlides() {
-  imgBanner.src = `./assets/images/slideshow/${slides[index].image}`;
-  textBanner.innerHTML = slides[index].tagLine;
-
-  index++;
-
-  if (index >= slides.length) {
-    index = 0;
-  }
-}
-
-setInterval(changeSlides, 3000);
-
-
-// ARROWS
-// Manual navigation: updates slide content when left or right arrow is clicked
-// Loops to the end or beginning of the slideshow if limits are reached
 const arrowLeft = document.querySelector(".arrow_left");
 const arrowRight = document.querySelector(".arrow_right");
+const dotsContainer = document.querySelector(".dots");
 
-function updateSlides() { 
-	imgBanner.src = `./assets/images/slideshow/${slides[index].image}`;
-	textBanner.innerHTML = slides[index].tagLine;
+
+/**
+ * Current index of the displayed slide.
+ * @type {number}
+ */
+let index = 0;
+
+/**
+ * Displays the slide at a given index.
+ * The index is wrapped using modulo to ensure an infinite loop.
+ *
+ * @param {number} i - The index of the slide to display (can be out of bounds).
+ */
+function showSlides(i) {
+  index = (i + slides.length) % slides.length;
+  imgBanner.src = `./assets/images/slideshow/${slides[index].image}`;
+  textBanner.innerHTML = slides[index].tagLine;
 }
 
-arrowLeft.addEventListener("click", () => {
-	index--;
+/**
+ * Automatically switches to the next slide every 3 seconds.
+ */
+setInterval(() => showSlides(index + 1), 3000);
 
-	if (index < 0) {
-		index = slides.length -1;
-	}
-
-	updateSlides();
-})
-
-arrowRight.addEventListener("click", () => {
-	index++;
-
-	if (index >= slides.length) {
-		index = 0;
-	}
-
-	updateSlides();
-})
-
-// DOTS
+/**
+ * Event listeners for manual navigation arrows.
+ * Left arrow shows the previous slide.
+ * Right arrow shows the next slide.
+ */
+arrowLeft.addEventListener("click", () => showSlides(index - 1));
+arrowRight.addEventListener("click", () => showSlides(index + 1));
