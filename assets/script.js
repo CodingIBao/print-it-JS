@@ -25,7 +25,6 @@ const slides = [
 ];
 
 
-
 /**
  * References to DOM elements used in the slideshow.
  */
@@ -42,6 +41,19 @@ const dotsContainer = document.querySelector(".dots");
 let index = 0;
 
 /**
+ * Updates the visual state of the navigation dots.
+ * Removes the 'dot_selected' class from all dots,
+ * then adds it to the dot corresponding to the current slide index.
+ *
+ * @param {number} index - The index of the active slide.
+ */
+function updateDots(index) {
+  const allDots = document.querySelectorAll(".dot");
+  allDots.forEach(dot => dot.classList.remove("dot_selected"));
+  allDots[index].classList.add("dot_selected");
+}
+
+/**
  * Displays the slide at a given index.
  * The index is wrapped using modulo to ensure an infinite loop.
  *
@@ -51,15 +63,8 @@ function showSlides(i) {
   index = (i + slides.length) % slides.length;
   imgBanner.src = `./assets/images/slideshow/${slides[index].image}`;
   textBanner.innerHTML = slides[index].tagLine;
-  const allDots = document.querySelectorAll(".dot");
-  allDots.forEach(dot => dot.classList.remove("dot_selected"));
-  allDots[index].classList.add("dot_selected");
+  updateDots(index);
 }
-
-/**
- * Automatically switches to the next slide every 3 seconds.
- */
-setInterval(() => showSlides(index + 1), 3000);
 
 /**
  * Event listeners for manual navigation arrows.
@@ -74,7 +79,7 @@ arrowRight.addEventListener("click", () => showSlides(index + 1));
  * Each dot is appended to the .dots container and corresponds to a slide index.
  * The first dot is marked as active with the 'dot_selected' class.
  */
-slides.forEach((slides, i) => {
+slides.forEach((slide, i) => {
   const dot = document.createElement("div");
   dot.classList.add("dot");
   if (i === 0) dot.classList.add("dot_selected");
@@ -92,3 +97,11 @@ dots.forEach((dot, i) => {
     showSlides(i);
   });
 });
+
+// Show the first slide on page load
+showSlides(0);
+
+/**
+ * Automatically switches to the next slide every 3 seconds.
+ */
+setInterval(() => showSlides(index + 1), 3000);
