@@ -66,19 +66,12 @@ function showSlides(i) {
   updateDots(index);
 }
 
-/**
- * Event listeners for manual navigation arrows.
- * Left arrow shows the previous slide.
- * Right arrow shows the next slide.
- */
-arrowLeft.addEventListener("click", () => showSlides(index - 1));
-arrowRight.addEventListener("click", () => showSlides(index + 1));
 
 /**
  * Generates navigation dots for each slide.
  * Each dot is appended to the .dots container and corresponds to a slide index.
  * The first dot is marked as active with the 'dot_selected' class.
- */
+*/
 slides.forEach((slide, i) => {
   const dot = document.createElement("div");
   dot.classList.add("dot");
@@ -90,7 +83,7 @@ slides.forEach((slide, i) => {
 /**
  * Adds click event listeners to each navigation dot.
  * Clicking a dot displays the corresponding slide.
- */
+*/
 const dots = document.querySelectorAll(".dot");
 dots.forEach((dot, i) => {
   dot.addEventListener("click", () => {
@@ -98,10 +91,18 @@ dots.forEach((dot, i) => {
   });
 });
 
+/**
+ * Event listeners for manual navigation arrows.
+ * Left arrow shows the previous slide.
+ * Right arrow shows the next slide.
+ */
+arrowLeft.addEventListener("click", () => showSlides(index - 1));
+arrowRight.addEventListener("click", () => showSlides(index + 1));
+
 // Show the first slide on page load
 showSlides(0);
 
 /**
  * Automatically switches to the next slide every 3 seconds.
- */
+*/
 setInterval(() => showSlides(index + 1), 3000);
